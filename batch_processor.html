@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Processor - ImgSizeReducer</title>
+    <link rel="stylesheet" href="main.css">
+    <meta name="description" content="Process multiple images simultaneously with ImgSizeReducer's batch processor. Perfect for social media managers and e-commerce businesses.">
+  
+  <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fimgsizered2522back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-surface border-b border-secondary-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M4 8a4 4 0 014-4h16a4 4 0 014 4v16a4 4 0 01-4 4H8a4 4 0 01-4-4V8zm4-2a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2H8z"/>
+                        <path d="M10 14l4 4 8-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="text-xl font-semibold text-text-primary">ImgSizeReducer</span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="homepage.html" class="text-text-secondary hover:text-primary transition-colors">Home</a>
+                    <a href="batch_processor.html" class="text-primary font-medium">Batch Processor</a>
+                    <a href="presets_library.html" class="text-text-secondary hover:text-primary transition-colors">Presets</a>
+                    
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-secondary-100" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="homepage.html" class="text-text-secondary hover:text-primary transition-colors py-2">Home</a>
+                    <a href="batch_processor.html" class="text-primary font-medium py-2">Batch Processor</a>
+                    <a href="presets_library.html" class="text-text-secondary hover:text-primary transition-colors py-2">Presets</a>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-50 to-accent-50 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl lg:text-5xl font-semibold text-text-primary mb-4">
+                    Batch Image <span class="text-gradient">Processor</span>
+                </h1>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    Process multiple images simultaneously with professional-grade optimization. Perfect for social media managers and e-commerce businesses.
+                </p>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="flex flex-wrap justify-center gap-8 mb-8">
+                <div class="text-center">
+                    <div class="text-2xl font-semibold text-primary">50</div>
+                    <div class="text-sm text-text-secondary">Images per batch</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-semibold text-accent">5x</div>
+                    <div class="text-sm text-text-secondary">Faster processing</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-semibold text-success">100%</div>
+                    <div class="text-sm text-text-secondary">Client-side secure</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Batch Processor Interface -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Upload Zone -->
+            <div class="card p-8 mb-8">
+                <div id="batchUploadZone" class="drag-zone mb-6 cursor-pointer" onclick="document.getElementById('batchFileInput').click()">
+                    <div id="uploadContent">
+                        <svg class="w-16 h-16 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <h3 class="text-xl font-medium text-text-primary mb-2">Drop multiple images here</h3>
+                        <p class="text-text-secondary mb-4">or click to browse and select multiple files</p>
+                        <div class="text-sm text-text-secondary">
+                            Supports: JPG, PNG, WebP, GIF • Max 50 files • 50MB each
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="file" id="batchFileInput" accept="image/*" multiple class="hidden" onchange="handleBatchFileSelect(event)">
+                
+                <!-- Batch Controls -->
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button class="btn-secondary" onclick="clearAllImages()">
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        Clear All
+                    </button>
+                    <button class="btn-primary" onclick="processAllImages()" id="processAllBtn" disabled>
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Process All Images
+                    </button>
+                    <button class="btn-secondary" onclick="downloadAllImages()" id="downloadAllBtn" disabled>
+                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Download All (ZIP)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Batch Settings Panel -->
+            <div id="batchSettings" class="card p-6 mb-8 hidden">
+                <h3 class="text-lg font-medium text-text-primary mb-6">Batch Settings</h3>
+                
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <!-- Preset Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-3">Apply Preset to All</label>
+                        <div class="space-y-2">
+                            <button class="w-full text-left px-4 py-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-colors" onclick="applyBatchPreset(1080, 1080)">
+                                <div class="font-medium text-text-primary">Instagram Square</div>
+                                <div class="text-sm text-text-secondary">1080 × 1080px</div>
+                            </button>
+                            <button class="w-full text-left px-4 py-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-colors" onclick="applyBatchPreset(1080, 1350)">
+                                <div class="font-medium text-text-primary">Instagram Portrait</div>
+                                <div class="text-sm text-text-secondary">1080 × 1350px</div>
+                            </button>
+                            <button class="w-full text-left px-4 py-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-colors" onclick="applyBatchPreset(1200, 630)">
+                                <div class="font-medium text-text-primary">Facebook Cover</div>
+                                <div class="text-sm text-text-secondary">1200 × 630px</div>
+                            </button>
+                            <button class="w-full text-left px-4 py-3 bg-secondary-50 hover:bg-primary-50 rounded-lg transition-colors" onclick="applyBatchPreset(800, 600)">
+                                <div class="font-medium text-text-primary">Web Thumbnail</div>
+                                <div class="text-sm text-text-secondary">800 × 600px</div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom Dimensions -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-3">Custom Dimensions</label>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs text-text-secondary mb-1">Width (px)</label>
+                                <input type="number" id="batchWidth" class="input-field" placeholder="1920" oninput="updateBatchDimensions()">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-text-secondary mb-1">Height (px)</label>
+                                <input type="number" id="batchHeight" class="input-field" placeholder="1080" oninput="updateBatchDimensions()">
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="batchAspectRatio" checked class="mr-2" onchange="toggleBatchAspectRatio()">
+                                <label for="batchAspectRatio" class="text-sm text-text-primary">Maintain aspect ratio</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quality and Format -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-3">Quality & Format</label>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs text-text-secondary mb-2">Quality</label>
+                                <input type="range" id="batchQuality" min="10" max="100" value="85" class="w-full" oninput="updateBatchQuality()">
+                                <div class="flex justify-between text-xs text-text-secondary mt-1">
+                                    <span>10%</span>
+                                    <span id="batchQualityValue">85%</span>
+                                    <span>100%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-text-secondary mb-1">Format</label>
+                                <select id="batchFormat" class="input-field" onchange="updateBatchFormat()">
+                                    <option value="jpeg">JPEG</option>
+                                    <option value="png">PNG</option>
+                                    <option value="webp">WebP</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Grid -->
+            <div id="imageGrid" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-medium text-text-primary">
+                        Processing Queue (<span id="imageCount">0</span> images)
+                    </h3>
+                    <div class="flex items-center gap-4">
+                        <div class="text-sm text-text-secondary">
+                            Total size reduction: <span id="totalReduction" class="text-success font-medium">0%</span>
+                        </div>
+                        <button class="btn-secondary text-sm" onclick="pauseProcessing()" id="pauseBtn">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Pause
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="imageContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Image cards will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- Processing Progress -->
+            <div id="batchProgress" class="hidden card p-6 mt-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-medium text-text-primary">Processing Images</h4>
+                    <span id="progressText" class="text-sm text-text-secondary">0 of 0 completed</span>
+                </div>
+                <div class="w-full bg-secondary-200 rounded-full h-3 mb-4">
+                    <div id="batchProgressBar" class="bg-primary h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <div class="text-center">
+                    <button class="btn-secondary" onclick="cancelProcessing()">Cancel Processing</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pro Features CTA -->
+    
+
+    <!-- Footer -->
+    <footer class="bg-text-primary text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M4 8a4 4 0 014-4h16a4 4 0 014 4v16a4 4 0 01-4 4H8a4 4 0 01-4-4V8zm4-2a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2H8z"/>
+                            <path d="M10 14l4 4 8-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-xl font-semibold">ImgSizeReducer</span>
+                    </div>
+                    <p class="text-secondary-300 mb-4">
+                        Professional image optimization made simple. Resize, compress, and optimize your images instantly in your browser.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-medium mb-4">Tools</h4>
+                    <ul class="space-y-2 text-secondary-300">
+                        <li><a href="homepage.html" class="hover:text-white transition-colors">Image Resizer</a></li>
+                        <li><a href="batch_processor.html" class="hover:text-white transition-colors">Batch Processor</a></li>
+                        <li><a href="presets_library.html" class="hover:text-white transition-colors">Presets Library</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Account -->
+                <div>
+                    <h4 class="font-medium mb-4">Account</h4>
+                    <ul class="space-y-2 text-secondary-300">
+                        <li><a href="account_dashboard.html" class="hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="pro_upgrade.html" class="hover:text-white transition-colors">Upgrade to Pro</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-white transition-colors">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-secondary-600 mt-8 pt-8 text-center text-secondary-300">
+                <p>&copy; 2025 ImgSizeReducer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let batchImages = [];
+        let processedImages = [];
+        let isProcessing = false;
+        let processingPaused = false;
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function handleBatchFileSelect(event) {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) return;
+
+            // Limit to 50 files for free version
+            const limitedFiles = files.slice(0, 50);
+            
+            limitedFiles.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const imageData = {
+                        id: Date.now() + index,
+                        file: file,
+                        originalSize: file.size,
+                        processed: false,
+                        error: null,
+                        canvas: null,
+                        downloadUrl: null
+                    };
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            imageData.originalImage = img;
+                            imageData.originalWidth = img.width;
+                            imageData.originalHeight = img.height;
+                            imageData.aspectRatio = img.width / img.height;
+                            
+                            batchImages.push(imageData);
+                            updateImageGrid();
+                            updateUI();
+                        };
+                        img.src = e.target.result;
+                        imageData.originalDataUrl = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function updateImageGrid() {
+            const container = document.getElementById('imageContainer');
+            const imageGrid = document.getElementById('imageGrid');
+            const batchSettings = document.getElementById('batchSettings');
+            
+            if (batchImages.length > 0) {
+                imageGrid.classList.remove('hidden');
+                batchSettings.classList.remove('hidden');
+                document.getElementById('imageCount').textContent = batchImages.length;
+            }
+            
+            container.innerHTML = '';
+            
+            batchImages.forEach((imageData, index) => {
+                const card = createImageCard(imageData, index);
+                container.appendChild(card);
+            });
+        }
+
+        function createImageCard(imageData, index) {
+            const card = document.createElement('div');
+            card.className = 'card p-4';
+            card.innerHTML = `
+                <div class="relative mb-3">
+                    <img src="${imageData.originalDataUrl}" alt="Batch image ${index + 1} preview" class="w-full h-32 object-cover rounded-lg">
+                    <button class="absolute top-2 right-2 bg-error text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-error-600 transition-colors" onclick="removeImage(${imageData.id})">
+                        ×
+                    </button>
+                    ${imageData.processed ? '<div class="absolute bottom-2 left-2 bg-success text-white text-xs px-2 py-1 rounded">Processed</div>' : ''}
+                    ${imageData.error ? '<div class="absolute bottom-2 left-2 bg-error text-white text-xs px-2 py-1 rounded">Error</div>' : ''}
+                </div>
+                <div class="text-sm text-text-secondary mb-2">
+                    <div class="truncate font-medium">${imageData.file.name}</div>
+                    <div>${formatFileSize(imageData.originalSize)} • ${imageData.originalWidth} × ${imageData.originalHeight}</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex gap-2">
+                        <input type="number" placeholder="Width" class="input-field text-sm flex-1" value="${imageData.targetWidth || ''}" onchange="updateImageDimensions(${imageData.id}, 'width', this.value)">
+                        <input type="number" placeholder="Height" class="input-field text-sm flex-1" value="${imageData.targetHeight || ''}" onchange="updateImageDimensions(${imageData.id}, 'height', this.value)">
+                    </div>
+                    ${imageData.processed ? `
+                        <div class="text-xs text-success">
+                            Size reduced by ${calculateReduction(imageData)}%
+                        </div>
+                        <button class="btn-primary text-xs w-full py-2" onclick="downloadSingleImage(${imageData.id})">
+                            Download
+                        </button>
+                    ` : `
+                        <div class="w-full bg-secondary-200 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full transition-all duration-300" style="width: ${imageData.progress || 0}%"></div>
+                        </div>
+                    `}
+                </div>
+            `;
+            return card;
+        }
+
+        function removeImage(imageId) {
+            batchImages = batchImages.filter(img => img.id !== imageId);
+            updateImageGrid();
+            updateUI();
+        }
+
+        function updateImageDimensions(imageId, dimension, value) {
+            const imageData = batchImages.find(img => img.id === imageId);
+            if (!imageData) return;
+
+            const numValue = parseInt(value);
+            if (dimension === 'width') {
+                imageData.targetWidth = numValue;
+                if (document.getElementById('batchAspectRatio').checked) {
+                    imageData.targetHeight = Math.round(numValue / imageData.aspectRatio);
+                }
+            } else {
+                imageData.targetHeight = numValue;
+                if (document.getElementById('batchAspectRatio').checked) {
+                    imageData.targetWidth = Math.round(numValue * imageData.aspectRatio);
+                }
+            }
+            updateImageGrid();
+        }
+
+        function applyBatchPreset(width, height) {
+            batchImages.forEach(imageData => {
+                imageData.targetWidth = width;
+                imageData.targetHeight = height;
+            });
+            document.getElementById('batchWidth').value = width;
+            document.getElementById('batchHeight').value = height;
+            updateImageGrid();
+        }
+
+        function updateBatchDimensions() {
+            const width = parseInt(document.getElementById('batchWidth').value);
+            const height = parseInt(document.getElementById('batchHeight').value);
+            
+            if (width && height) {
+                batchImages.forEach(imageData => {
+                    imageData.targetWidth = width;
+                    imageData.targetHeight = height;
+                });
+                updateImageGrid();
+            }
+        }
+
+        function updateBatchQuality() {
+            const quality = document.getElementById('batchQuality').value;
+            document.getElementById('batchQualityValue').textContent = quality + '%';
+        }
+
+        function updateBatchFormat() {
+            // Format update logic
+        }
+
+        function toggleBatchAspectRatio() {
+            // Aspect ratio toggle logic
+        }
+
+        function clearAllImages() {
+            batchImages = [];
+            processedImages = [];
+            updateImageGrid();
+            updateUI();
+            document.getElementById('imageGrid').classList.add('hidden');
+            document.getElementById('batchSettings').classList.add('hidden');
+        }
+
+        function processAllImages() {
+            if (batchImages.length === 0 || isProcessing) return;
+            
+            isProcessing = true;
+            processingPaused = false;
+            document.getElementById('batchProgress').classList.remove('hidden');
+            document.getElementById('processAllBtn').disabled = true;
+            
+            processImagesSequentially(0);
+        }
+
+        function processImagesSequentially(index) {
+            if (index >= batchImages.length || processingPaused) {
+                finishProcessing();
+                return;
+            }
+
+            const imageData = batchImages[index];
+            const quality = parseInt(document.getElementById('batchQuality').value) / 100;
+            const format = document.getElementById('batchFormat').value;
+            
+            // Simulate processing
+            imageData.progress = 0;
+            const progressInterval = setInterval(() => {
+                imageData.progress += Math.random() * 20;
+                if (imageData.progress >= 100) {
+                    imageData.progress = 100;
+                    imageData.processed = true;
+                    clearInterval(progressInterval);
+                    
+                    // Create processed image
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = imageData.targetWidth || imageData.originalWidth;
+                    canvas.height = imageData.targetHeight || imageData.originalHeight;
+                    
+                    ctx.drawImage(imageData.originalImage, 0, 0, canvas.width, canvas.height);
+                    
+                    const mimeType = format === 'png' ? 'image/png' : format === 'webp' ? 'image/webp' : 'image/jpeg';
+                    canvas.toBlob(function(blob) {
+                        imageData.processedBlob = blob;
+                        imageData.processedSize = blob.size;
+                        imageData.downloadUrl = URL.createObjectURL(blob);
+                        
+                        updateImageGrid();
+                        updateBatchProgress(index + 1);
+                        processImagesSequentially(index + 1);
+                    }, mimeType, quality);
+                }
+                updateImageGrid();
+            }, 100);
+        }
+
+        function updateBatchProgress(completed) {
+            const total = batchImages.length;
+            const percentage = (completed / total) * 100;
+            
+            document.getElementById('batchProgressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed} of ${total} completed`;
+            
+            if (completed === total) {
+                setTimeout(() => {
+                    document.getElementById('batchProgress').classList.add('hidden');
+                }, 1000);
+            }
+        }
+
+        function finishProcessing() {
+            isProcessing = false;
+            document.getElementById('processAllBtn').disabled = false;
+            document.getElementById('downloadAllBtn').disabled = false;
+            
+            // Calculate total reduction
+            let totalOriginalSize = 0;
+            let totalProcessedSize = 0;
+            
+            batchImages.forEach(imageData => {
+                if (imageData.processed) {
+                    totalOriginalSize += imageData.originalSize;
+                    totalProcessedSize += imageData.processedSize;
+                }
+            });
+            
+            const reduction = Math.round((1 - totalProcessedSize / totalOriginalSize) * 100);
+            document.getElementById('totalReduction').textContent = Math.max(0, reduction) + '%';
+        }
+
+        function pauseProcessing() {
+            processingPaused = !processingPaused;
+            const btn = document.getElementById('pauseBtn');
+            if (processingPaused) {
+                btn.innerHTML = '<svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m6-6V7a3 3 0 00-3-3H6a3 3 0 00-3 3v1"></path></svg>Resume';
+            } else {
+                btn.innerHTML = '<svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Pause';
+                processImagesSequentially(batchImages.findIndex(img => !img.processed));
+            }
+        }
+
+        function cancelProcessing() {
+            isProcessing = false;
+            processingPaused = false;
+            document.getElementById('batchProgress').classList.add('hidden');
+            document.getElementById('processAllBtn').disabled = false;
+        }
+
+        function downloadAllImages() {
+            const processedImages = batchImages.filter(img => img.processed && img.downloadUrl);
+            if (processedImages.length === 0) return;
+
+            // Create zip file simulation
+            const link = document.createElement('a');
+            link.href = processedImages[0].downloadUrl; // In real implementation, this would be a zip file
+            link.download = 'batch_processed_images.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function downloadSingleImage(imageId) {
+            const imageData = batchImages.find(img => img.id === imageId);
+            if (!imageData || !imageData.downloadUrl) return;
+
+            const link = document.createElement('a');
+            link.href = imageData.downloadUrl;
+            link.download = `processed_${imageData.file.name}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function updateUI() {
+            const hasImages = batchImages.length > 0;
+            document.getElementById('processAllBtn').disabled = !hasImages;
+        }
+
+        function calculateReduction(imageData) {
+            if (!imageData.processedSize) return 0;
+            return Math.round((1 - imageData.processedSize / imageData.originalSize) * 100);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Drag and drop functionality
+        const uploadZone = document.getElementById('batchUploadZone');
+
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadZone.classList.add('border-primary-400', 'bg-primary-50');
+        });
+
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('border-primary-400', 'bg-primary-50');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('border-primary-400', 'bg-primary-50');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('batchFileInput').files = files;
+                handleBatchFileSelect({ target: { files: files } });
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>

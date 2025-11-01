@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImgSizeReducer - Professional Image Optimization Tool</title>
+    <link rel="stylesheet" href="main.css">
+    <meta name="description" content="Professional-grade image optimization tool. Resize, compress, and optimize images instantly in your browser. No software required.">
+  
+  <script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fimgsizered2522back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9"></script>
+  <script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+  </head>
+<body class="bg-background min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-surface border-b border-secondary-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                        <path d="M4 8a4 4 0 014-4h16a4 4 0 014 4v16a4 4 0 01-4 4H8a4 4 0 01-4-4V8zm4-2a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2H8z"/>
+                        <path d="M10 14l4 4 8-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="text-xl font-semibold text-text-primary">ImgSizeReducer</span>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="homepage.html" class="text-primary font-medium">Home</a>
+                    <a href="batch_processor.html" class="text-text-secondary hover:text-primary transition-colors">Batch Processor</a>
+                    <a href="presets_library.html" class="text-text-secondary hover:text-primary transition-colors">Presets</a>
+                    
+                    
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-secondary-100" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="homepage.html" class="text-primary font-medium py-2">Home</a>
+                    <a href="batch_processor.html" class="text-text-secondary hover:text-primary transition-colors py-2">Batch Processor</a>
+                    <a href="presets_library.html" class="text-text-secondary hover:text-primary transition-colors py-2">Presets</a>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Upload Zone -->
+    <section class="relative bg-gradient-to-br from-primary-50 to-accent-50 py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl lg:text-6xl font-semibold text-text-primary mb-6">
+                    Professional Image <span class="text-gradient">Optimization</span>
+                </h1>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto mb-8">
+                    Resize, compress, and optimize your images instantly. Professional results in seconds, no software required.
+                </p>
+                
+                <!-- Usage Statistics -->
+                <div class="flex flex-wrap justify-center gap-8 mb-12">
+                    <div class="text-center">
+                        <div class="text-3xl font-semibold text-primary">2.4M+</div>
+                        <div class="text-sm text-text-secondary">Images Processed</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-semibold text-accent">847GB</div>
+                        <div class="text-sm text-text-secondary">Storage Saved</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-semibold text-success">98.7%</div>
+                        <div class="text-sm text-text-secondary">User Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Upload Interface -->
+            <div class="max-w-4xl mx-auto">
+                <div class="card p-8">
+                    <!-- Upload Zone -->
+                    <div id="uploadZone" class="drag-zone mb-8 cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                        <div id="uploadContent">
+                            <svg class="w-16 h-16 text-secondary-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <h3 class="text-xl font-medium text-text-primary mb-2">Drop your image here</h3>
+                            <p class="text-text-secondary mb-4">or click to browse files</p>
+                            <div class="text-sm text-text-secondary">
+                                Supports: JPG, PNG, WebP, GIF • Max size: 50MB
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                    
+                    <!-- Progress Bar (Hidden by default) -->
+                    <div id="progressBar" class="hidden mb-8">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-text-secondary">Uploading...</span>
+                            <span id="progressPercent" class="text-sm text-text-secondary">0%</span>
+                        </div>
+                        <div class="w-full bg-secondary-200 rounded-full h-2">
+                            <div id="progressFill" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Image Preview and Controls (Hidden by default) -->
+                    <div id="imageControls" class="hidden">
+                        <!-- Before/After Comparison -->
+                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                            <!-- Original Image -->
+                            <div class="text-center">
+                                <h4 class="text-lg font-medium text-text-primary mb-4">Original</h4>
+                                <div class="bg-secondary-100 rounded-lg p-4 mb-4">
+                                    <img id="originalImage" src="" alt="Original uploaded image" class="max-w-full h-48 object-contain mx-auto rounded">
+                                </div>
+                                <div class="text-sm text-text-secondary">
+                                    <span id="originalSize">0 KB</span> • <span id="originalDimensions">0 × 0</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Optimized Preview -->
+                            <div class="text-center">
+                                <h4 class="text-lg font-medium text-text-primary mb-4">Optimized</h4>
+                                <div class="bg-secondary-100 rounded-lg p-4 mb-4">
+                                    <img id="previewImage" src="" alt="Optimized image preview" class="max-w-full h-48 object-contain mx-auto rounded">
+                                </div>
+                                <div class="text-sm text-text-secondary">
+                                    <span id="optimizedSize">0 KB</span> • <span id="optimizedDimensions">0 × 0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Control Panel -->
+                        <div class="bg-secondary-50 rounded-lg p-6 mb-8">
+                            <!-- Quick Presets -->
+                            <div class="mb-6">
+                                <h5 class="text-sm font-medium text-text-primary mb-3">Quick Presets</h5>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="px-4 py-2 bg-surface border border-secondary-200 rounded-lg text-sm hover:bg-primary hover:text-white transition-colors" onclick="applyPreset(1080, 1080)">Instagram Square</button>
+                                    <button class="px-4 py-2 bg-surface border border-secondary-200 rounded-lg text-sm hover:bg-primary hover:text-white transition-colors" onclick="applyPreset(1200, 630)">Facebook Cover</button>
+                                    <button class="px-4 py-2 bg-surface border border-secondary-200 rounded-lg text-sm hover:bg-primary hover:text-white transition-colors" onclick="applyPreset(1920, 1080)">Full HD</button>
+                                    <button class="px-4 py-2 bg-surface border border-secondary-200 rounded-lg text-sm hover:bg-primary hover:text-white transition-colors" onclick="applyPreset(800, 600)">Web Thumbnail</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Custom Dimensions -->
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Width (px)</label>
+                                    <input type="number" id="widthInput" class="input-field" placeholder="1920" oninput="updateDimensions()">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Height (px)</label>
+                                    <input type="number" id="heightInput" class="input-field" placeholder="1080" oninput="updateDimensions()">
+                                </div>
+                            </div>
+                            
+                            <!-- Quality and Format -->
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Quality</label>
+                                    <input type="range" id="qualitySlider" min="10" max="100" value="85" class="w-full" oninput="updateQuality()">
+                                    <div class="flex justify-between text-xs text-text-secondary mt-1">
+                                        <span>10%</span>
+                                        <span id="qualityValue">85%</span>
+                                        <span>100%</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-text-primary mb-2">Format</label>
+                                    <select id="formatSelect" class="input-field" onchange="updateFormat()">
+                                        <option value="jpeg">JPEG</option>
+                                        <option value="png">PNG</option>
+                                        <option value="webp">WebP</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Maintain Aspect Ratio -->
+                            <div class="flex items-center mb-6">
+                                <input type="checkbox" id="aspectRatio" checked class="mr-2" onchange="toggleAspectRatio()">
+                                <label for="aspectRatio" class="text-sm text-text-primary">Maintain aspect ratio</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Download Button -->
+                        <div class="text-center">
+                            <button id="downloadBtn" class="btn-primary text-lg px-8 py-4" onclick="downloadImage()">
+                                <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Download Optimized Image
+                            </button>
+                            <p class="text-sm text-text-secondary mt-2">
+                                File size reduced by <span id="sizeReduction" class="text-success font-medium">0%</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-surface">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-semibold text-text-primary mb-4">Why Choose ImgSizeReducer?</h2>
+                <p class="text-xl text-text-secondary max-w-2xl mx-auto">
+                    Professional-grade tools with user-friendly design, all in your browser
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-medium text-text-primary mb-2">Lightning Fast</h3>
+                    <p class="text-text-secondary">Process images instantly with client-side optimization. No waiting, no uploads to servers.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-medium text-text-primary mb-2">100% Private</h3>
+                    <p class="text-text-secondary">Your images never leave your device. All processing happens locally in your browser.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-medium text-text-primary mb-2">Professional Quality</h3>
+                    <p class="text-text-secondary">Advanced algorithms ensure optimal compression while maintaining visual quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    
+
+    <!-- Footer -->
+    <footer class="bg-text-primary text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-8 h-8 text-primary mr-3" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M4 8a4 4 0 014-4h16a4 4 0 014 4v16a4 4 0 01-4 4H8a4 4 0 01-4-4V8zm4-2a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2H8z"/>
+                            <path d="M10 14l4 4 8-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-xl font-semibold">ImgSizeReducer</span>
+                    </div>
+                    <p class="text-secondary-300 mb-4">
+                        Professional image optimization made simple. Resize, compress, and optimize your images instantly in your browser.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-medium mb-4">Tools</h4>
+                    <ul class="space-y-2 text-secondary-300">
+                        <li><a href="homepage.html" class="hover:text-white transition-colors">Image Resizer</a></li>
+                        <li><a href="batch_processor.html" class="hover:text-white transition-colors">Batch Processor</a></li>
+                        <li><a href="presets_library.html" class="hover:text-white transition-colors">Presets Library</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Account -->
+                <div>
+                    <h4 class="font-medium mb-4">Account</h4>
+                    <ul class="space-y-2 text-secondary-300">
+                        <li><a href="account_dashboard.html" class="hover:text-white transition-colors">Dashboard</a></li>
+                        <li><a href="pro_upgrade.html" class="hover:text-white transition-colors">Upgrade to Pro</a></li>
+                        <li><a href="javascript:void(0)" class="hover:text-white transition-colors">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-secondary-600 mt-8 pt-8 text-center text-secondary-300">
+                <p>&copy; 2025 ImgSizeReducer. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let originalFile = null;
+        let originalImage = null;
+        let aspectRatioValue = 1;
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            originalFile = file;
+            
+            // Show progress bar
+            document.getElementById('progressBar').classList.remove('hidden');
+            simulateProgress();
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    originalImage = img;
+                    aspectRatioValue = img.width / img.height;
+                    
+                    // Update UI
+                    document.getElementById('originalImage').src = e.target.result;
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('originalSize').textContent = formatFileSize(file.size);
+                    document.getElementById('originalDimensions').textContent = `${img.width} × ${img.height}`;
+                    document.getElementById('widthInput').value = img.width;
+                    document.getElementById('heightInput').value = img.height;
+                    
+                    // Show controls
+                    document.getElementById('imageControls').classList.remove('hidden');
+                    updatePreview();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function simulateProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 30;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('progressBar').classList.add('hidden');
+                    }, 500);
+                }
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+            }, 200);
+        }
+
+        function applyPreset(width, height) {
+            document.getElementById('widthInput').value = width;
+            document.getElementById('heightInput').value = height;
+            updatePreview();
+        }
+
+        function updateDimensions() {
+            if (document.getElementById('aspectRatio').checked && originalImage) {
+                const width = parseInt(document.getElementById('widthInput').value);
+                const height = parseInt(document.getElementById('heightInput').value);
+                
+                if (width && !height) {
+                    document.getElementById('heightInput').value = Math.round(width / aspectRatioValue);
+                } else if (height && !width) {
+                    document.getElementById('widthInput').value = Math.round(height * aspectRatioValue);
+                }
+            }
+            updatePreview();
+        }
+
+        function updateQuality() {
+            const quality = document.getElementById('qualitySlider').value;
+            document.getElementById('qualityValue').textContent = quality + '%';
+            updatePreview();
+        }
+
+        function updateFormat() {
+            updatePreview();
+        }
+
+        function toggleAspectRatio() {
+            updateDimensions();
+        }
+
+        function updatePreview() {
+            if (!originalImage) return;
+
+            const width = parseInt(document.getElementById('widthInput').value) || originalImage.width;
+            const height = parseInt(document.getElementById('heightInput').value) || originalImage.height;
+            const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+            
+            // Create canvas for preview
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = width;
+            canvas.height = height;
+            
+            ctx.drawImage(originalImage, 0, 0, width, height);
+            
+            const format = document.getElementById('formatSelect').value;
+            const mimeType = format === 'png' ? 'image/png' : format === 'webp' ? 'image/webp' : 'image/jpeg';
+            const dataUrl = canvas.toDataURL(mimeType, quality);
+            
+            document.getElementById('previewImage').src = dataUrl;
+            document.getElementById('optimizedDimensions').textContent = `${width} × ${height}`;
+            
+            // Estimate file size (rough calculation)
+            const estimatedSize = Math.round(dataUrl.length * 0.75);
+            document.getElementById('optimizedSize').textContent = formatFileSize(estimatedSize);
+            
+            // Calculate size reduction
+            const reduction = Math.round((1 - estimatedSize / originalFile.size) * 100);
+            document.getElementById('sizeReduction').textContent = Math.max(0, reduction) + '%';
+        }
+
+        function downloadImage() {
+            if (!originalImage) return;
+
+            const width = parseInt(document.getElementById('widthInput').value) || originalImage.width;
+            const height = parseInt(document.getElementById('heightInput').value) || originalImage.height;
+            const quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+            const format = document.getElementById('formatSelect').value;
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = width;
+            canvas.height = height;
+            
+            ctx.drawImage(originalImage, 0, 0, width, height);
+            
+            const mimeType = format === 'png' ? 'image/png' : format === 'webp' ? 'image/webp' : 'image/jpeg';
+            
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `optimized_image.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, mimeType, quality);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Drag and drop functionality
+        const uploadZone = document.getElementById('uploadZone');
+
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadZone.classList.add('border-primary-400', 'bg-primary-50');
+        });
+
+        uploadZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('border-primary-400', 'bg-primary-50');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadZone.classList.remove('border-primary-400', 'bg-primary-50');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('fileInput').files = files;
+                handleFileSelect({ target: { files: files } });
+            }
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
